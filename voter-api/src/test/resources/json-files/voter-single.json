@@ -1,0 +1,17 @@
+{
+  "id":"VOTE-7752378",
+  "firstName":"Manjunath",
+  "lastName":"HM",
+  "birthDate":"10/02/1992",
+  "gender":"MALE",
+  "address":{
+    "doorNo":"44",
+    "streetAddr1":"kelagina beedi",
+    "locality":"Hireballa",
+    "talluk":"Sidlagatta",
+    "district":"Chikkaballapur",
+    "state":"Karnataka",
+    "country":"India",
+    "zipcode":"562102"
+  }
+}

@@ -10,13 +10,13 @@ import java.util.List;
 
 public interface VoterRepository extends JpaRepository<Voter, String> {
 
-    List<Voter> findByFirstName(String firstName);
+    List<Voter> findByFirstNameIgnoreCase(String firstName);
 
-    Page<Voter> findByFirstName(String firstName, Pageable page);
+    Page<Voter> findByFirstNameIgnoreCase(String firstName, Pageable page);
 
-    List<Voter> findByLastName(String lastName);
+    List<Voter> findByLastNameIgnoreCase(String lastName);
 
-    Page<Voter> findByLastName(String lastName, Pageable page);
+    Page<Voter> findByLastNameIgnoreCase(String lastName, Pageable page);
 
     Page<Voter> findByGender(GenderType gender, Pageable page);
 }
