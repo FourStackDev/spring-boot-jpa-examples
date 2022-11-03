@@ -69,4 +69,42 @@ public class VoterRepositoryIntgTest {
 
         Assertions.assertEquals(1, content.size());
     }
+
+    @Test
+    @DisplayName("VoterRepositoryIntgTest: Find Voters by Lastname")
+    public void testFindByLastNameIgnoreCase() {
+        var lastName = "Kumar";
+        List<Voter> voters = voterRepository.findByLastNameIgnoreCase(lastName);
+
+        Assertions.assertEquals(1, voters.size());
+    }
+
+    @Test
+    @DisplayName("VoterRepositoryIntgTest: Find Voters Page by Lastname")
+    public void testFindByLastNameIgnoreCasePagination() {
+        var lastName = "HM";
+        PageRequest pageRequest = PageRequest.of(0, 10);
+        Page<Voter> voterPage = voterRepository.findByLastNameIgnoreCase(lastName, pageRequest);
+        List<Voter> content = voterPage.getContent();
+
+        Assertions.assertEquals(2, content.size());
+    }
+
+    @Test
+    @DisplayName("VoterRepositoryIntgTest: Find Voters by Gender - MALE")
+    public void testFindByGender_MALE() {
+        PageRequest pageRequest = PageRequest.of(0, 10);
+        Page<Voter> voterPage = voterRepository.findByGender(GenderType.MALE, pageRequest);
+        List<Voter> content = voterPage.getContent();
+        Assertions.assertEquals(4, content.size());
+    }
+
+    @Test
+    @DisplayName("VoterRepositoryIntgTest: Find Voters by Gender - MALE")
+    public void testFindByGender_FEMALE() {
+        var pageRequest = PageRequest.of(0, 10);
+        var voterPage = voterRepository.findByGender(GenderType.FEMALE, pageRequest);
+        List<Voter> content = voterPage.getContent();
+        Assertions.assertEquals(1, content.size());
+    }
 }
