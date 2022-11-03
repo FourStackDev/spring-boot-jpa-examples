@@ -1,0 +1,89 @@
+# Set application context path
+server:
+  servlet:
+    context-path: /voter-api
+
+# Set Application name
+spring:
+  application:
+    name: voter-application
+
+  # Set Active profile
+  profiles:
+    active: local
+
+
+---
+# Local Profile
+spring:
+  config:
+    activate:
+      on-profile: local
+
+  # Set H2 Database properties
+  datasource:
+    url: jdbc:h2:mem:testdb
+    username: root
+    password: admin@123
+    driver-class-name: org.h2.Driver
+    initialization-mode: always
+
+  # Set JPA related properties
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    hibernate:
+      ddl-auto: create-drop
+    show-sql: true
+
+  # h2 console properties
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+
+---
+# Non prod profile
+spring:
+  config:
+    activate:
+      on-profile: nonprod
+
+  # Set PostgresSQL properties
+  datasource:
+    url: jdbc:postgresql://localhost:5432/voter-app
+    username: admin
+    password: admin@123
+    driver-class-name: org.postgresql.Driver
+
+  # Set JPA properties
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format-sql: true
+
+---
+# Production profile
+spring:
+  config:
+    activate:
+      on-profile: production
+
+  # Set PostgresSQL properties
+  datasource:
+    url: jdbc:postgresql://localhost:5432/voter-app
+    username: admin
+    password: admin@123
+    driver-class-name: org.postgresql.Driver
+
+  # Set JPA properties
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: false
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
