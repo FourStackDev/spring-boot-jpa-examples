@@ -10,4 +10,6 @@ public interface AddressRepository extends JpaRepository<Address, Integer> {
     Page<Address> findByTallukIgnoreCase(String talluk, Pageable page);
 
     Page<Address> findByDistrictIgnoreCase(String district, Pageable page);
+
+    Page<Address> findByStateIgnoreCase(String state, Pageable page);
 }
