@@ -1,7 +1,7 @@
 # Set application context path
 server:
   servlet:
-    context-path: /voter-api
+    context-path: /voter-app
 
 # Set Application name
 spring:

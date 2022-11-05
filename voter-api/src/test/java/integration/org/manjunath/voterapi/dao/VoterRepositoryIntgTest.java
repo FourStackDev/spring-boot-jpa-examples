@@ -57,7 +57,6 @@ public class VoterRepositoryIntgTest {
     public void testFindByFirstNameIgnoreCase() {
         var firstName = "Manjunath";
         List<Voter> voterList = voterRepository.findByFirstNameIgnoreCase(firstName);
-
         Assertions.assertEquals(1, voterList.size());
     }
 
@@ -77,7 +76,6 @@ public class VoterRepositoryIntgTest {
     public void testFindByLastNameIgnoreCase() {
         var lastName = "Kumar";
         List<Voter> voters = voterRepository.findByLastNameIgnoreCase(lastName);
-
         Assertions.assertEquals(1, voters.size());
     }
 

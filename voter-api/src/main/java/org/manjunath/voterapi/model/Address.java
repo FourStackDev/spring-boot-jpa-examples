@@ -1,5 +1,6 @@
 package org.manjunath.voterapi.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
@@ -8,6 +9,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Data
 @NoArgsConstructor
@@ -17,7 +19,9 @@ import javax.persistence.*;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Entity
 @Table(name = "address")
-public class Address {
+public class Address implements Serializable {
+
+    private static final long serialVersionUID = -967704695766910132L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -37,7 +41,8 @@ public class Address {
      * Map the Address and Voter. Map them using the joinColumn 'voter_id'
      * and in Voter Entity mapped by must specify the variable of Voter i.e. voter.
      */
-    @OneToOne
-    @JoinColumn(name = "voter_id")
+    @JsonIgnore
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "voter_id", referencedColumnName = "id", nullable = false)
     private Voter voter;
 }

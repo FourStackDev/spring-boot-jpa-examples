@@ -7,7 +7,9 @@ import lombok.*;
 import org.manjunath.voterapi.codetype.GenderType;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.Objects;
 
 @Data
 @NoArgsConstructor
@@ -17,7 +19,9 @@ import java.time.LocalDate;
 @Builder
 @Entity
 @Table(name = "voter")
-public class Voter {
+public class Voter implements Serializable {
+
+    private static final long serialVersionUID = -2064234665419580733L;
 
     @Id
     private String id;
@@ -34,13 +38,11 @@ public class Voter {
     /**
      * OneToOne mapping for Voter and Address, and it mentions that the
      * mapping column is specified under Address Entity Object.
-     *
+     * <p>
      * Also Exclude the toString() method, to avoid the circular dependency.
      */
-    @OneToOne(
-            cascade = CascadeType.ALL,
-            mappedBy = "voter"
-    )
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "voter",
+             fetch = FetchType.LAZY)
     @ToString.Exclude
     private Address address;
 }

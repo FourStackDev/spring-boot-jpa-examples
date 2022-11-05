@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.http.*;
 import org.springframework.test.web.reactive.server.WebTestClient;
 import org.springframework.web.util.UriComponents;
@@ -84,5 +86,25 @@ public class VoterControllerIntgTest {
         assert response != null;
         Assertions.assertEquals(HttpStatus.OK, response.getStatusCode());
         Assertions.assertEquals(1, response.getBody().size());
+    }
+
+    @Test
+    public void testGetVotersPageByFirstName() {
+        String url = "/api/v1/voter/page-by-firstname/Vinay";
+        ResponseEntity<PageImpl<Voter>> response = restTemplate.exchange(
+                url,
+                HttpMethod.GET,
+                HttpEntity.EMPTY,
+                new ParameterizedTypeReference<PageImpl<Voter>>() {
+                }
+        );
+
+
+
+        assert response != null;
+        Assertions.assertEquals(HttpStatus.OK, response.getStatusCode());
+
+        System.out.println("RESPONSE :::");
+        System.out.println(response.getBody());
     }
 }
