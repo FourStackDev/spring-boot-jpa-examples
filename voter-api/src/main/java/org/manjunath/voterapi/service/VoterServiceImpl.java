@@ -5,6 +5,8 @@ import org.manjunath.voterapi.model.Voter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -41,8 +43,20 @@ public class VoterServiceImpl implements VoterService {
         return voterRepository.findByFirstNameIgnoreCase(firstName, getPageRequest(pageNum, pageSize));
     }
 
-    private PageRequest getPageRequest(int pageNum, int pageSize) {
-        return PageRequest.of(pageNum, pageSize);
+    @Override
+    public List<Voter> getAllVotersByLastName(String lastName) {
+        return voterRepository.findByLastNameIgnoreCase(lastName);
+    }
+
+    @Override
+    public Page<Voter> getVotersPageByLastName(String lastName, int pageNum, int pageSize) {
+        return voterRepository.findByLastNameIgnoreCase(lastName, getPageRequest(pageNum, pageSize));
+    }
+
+    private Pageable getPageRequest(int pageNum, int pageSize) {
+        return PageRequest.of(pageNum, pageSize, Sort.Direction.ASC, "lastName");
+        // return PageRequest.of(pageNum, pageSize, Sort.by(Sort.Direction.DESC, "lastName"));
+        // return PageRequest.of(pageNum, pageSize);
     }
 
     private void generateVoterId(Voter voter) {

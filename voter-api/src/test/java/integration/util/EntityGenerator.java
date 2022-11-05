@@ -42,6 +42,9 @@ public class EntityGenerator {
                     TestUtility.getFileContent(VOTER_SINGLE_FILEPATH),
                     Voter.class
             );
+
+            // for BiDirectional mapping
+            voter.getAddress().setVoter(voter);
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }

@@ -14,4 +14,8 @@ public interface VoterService {
     List<Voter> getAllVotersByFirstName(String firstName);
 
     Page<Voter> getVotersPageByFirstName(String firstName, int pageNum, int pageSize);
+
+    List<Voter> getAllVotersByLastName(String lastName);
+
+    Page<Voter> getVotersPageByLastName(String lastName, int pageNum, int pageSize);
 }

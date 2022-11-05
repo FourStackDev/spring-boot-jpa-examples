@@ -32,6 +32,8 @@ public class VoterControllerIntgTest {
     public void setUp() {
         // Add some test data into the Embedded Database.
         List<Voter> voters = EntityGenerator.getVoters();
+        // BiDirectional mapping
+        voters.forEach(voter -> voter.getAddress().setVoter(voter));
         repository.saveAll(voters);
     }
 
@@ -91,14 +93,20 @@ public class VoterControllerIntgTest {
     @Test
     public void testGetVotersPageByFirstName() {
         String url = "/api/v1/voter/page-by-firstname/Vinay";
-        ResponseEntity<PageImpl<Voter>> response = restTemplate.exchange(
+        /*ResponseEntity<PageImpl<Voter>> response = restTemplate.exchange(
                 url,
                 HttpMethod.GET,
                 HttpEntity.EMPTY,
                 new ParameterizedTypeReference<PageImpl<Voter>>() {
                 }
-        );
+        );*/
 
+        ResponseEntity<Page> response = restTemplate.exchange(
+                url,
+                HttpMethod.GET,
+                HttpEntity.EMPTY,
+                Page.class
+        );
 
 
         assert response != null;

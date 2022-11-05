@@ -1,6 +1,5 @@
 package org.manjunath.voterapi.datagenerator;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.manjunath.voterapi.codetype.GenderType;
 import org.manjunath.voterapi.model.Address;
@@ -16,7 +15,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
-import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class VoterDataGenerator {
@@ -31,12 +29,12 @@ public class VoterDataGenerator {
     );
 
     private static final String[] surNames = {
-            "Gowda", "Reddy", "Shetty", "A", "S", "T", "R"
+            "Gowda", "Reddy", "Shetty", "A", "S", "T", "R", "M", "N", "C", "K"
     };
 
     private static final String[] localities = {
             "MG Road", "BTM Layout", "Narayanapura", "Gangamma Layout", "Chandra Layout",
-            "Basaveswara nagar", "Kengunte"
+            "Basaveswara Nagar", "Kengunte"
     };
 
     private static final String[] addrLine1 = {
