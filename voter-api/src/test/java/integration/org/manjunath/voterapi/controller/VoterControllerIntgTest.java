@@ -8,13 +8,13 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.http.*;
 import org.springframework.test.web.reactive.server.WebTestClient;
 import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
 import util.EntityGenerator;
 
+import java.net.URI;
 import java.util.List;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -91,28 +91,19 @@ public class VoterControllerIntgTest {
     }
 
     @Test
-    public void testGetVotersPageByFirstName() {
-        String url = "/api/v1/voter/page-by-firstname/Vinay";
-        /*ResponseEntity<PageImpl<Voter>> response = restTemplate.exchange(
-                url,
+    @DisplayName("testGetAllVotersByFirstName: Get Voters by LastName")
+    public void testGetAllVotersByLastName() {
+        String url = "/api/v1/voter/by-last-name/Bhuyar";
+        ResponseEntity<Voter[]> response = restTemplate.exchange(
+                URI.create(url),
                 HttpMethod.GET,
                 HttpEntity.EMPTY,
-                new ParameterizedTypeReference<PageImpl<Voter>>() {
-                }
-        );*/
-
-        ResponseEntity<Page> response = restTemplate.exchange(
-                url,
-                HttpMethod.GET,
-                HttpEntity.EMPTY,
-                Page.class
+                Voter[].class
         );
-
 
         assert response != null;
         Assertions.assertEquals(HttpStatus.OK, response.getStatusCode());
-
-        System.out.println("RESPONSE :::");
-        System.out.println(response.getBody());
+        Assertions.assertEquals(1, response.getBody().length);
     }
+
 }
