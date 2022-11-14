@@ -39,6 +39,13 @@ public class VoterController {
         return service.getAllVotersByLastName(lastName);
     }
 
+    @GetMapping("/voter/page-by-lastname/{lastname}")
+    public Page<Voter> getVoterPageByLastName(@PathVariable("lastname") String lastName,
+                                              @RequestParam(value = "pageNum", defaultValue = "0") int pageNum,
+                                              @RequestParam(value = "pageSize", defaultValue = "10") int pageSize) {
+        return service.getVotersPageByLastName(lastName, pageNum, pageSize);
+    }
+
     @PostMapping("/voter")
     public ResponseEntity<Voter> createVoter(@RequestBody Voter voter) {
         return ResponseEntity.status(HttpStatus.CREATED)
