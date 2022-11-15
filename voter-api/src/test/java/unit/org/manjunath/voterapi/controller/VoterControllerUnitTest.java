@@ -1,6 +1,5 @@
 package org.manjunath.voterapi.controller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -8,7 +7,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.manjunath.voterapi.model.Voter;
 import org.manjunath.voterapi.service.VoterService;
-import org.mockito.ArgumentCaptor;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -16,8 +14,6 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
@@ -105,10 +101,55 @@ public class VoterControllerUnitTest {
         Mockito.when(service.getVotersPageByFirstName(Mockito.anyString(), Mockito.anyInt(), Mockito.anyInt()))
                 .thenReturn(page);
 
+        // perform the action on API endpoint
         mockMvc.perform(
                         MockMvcRequestBuilders.get("/api/v1/voter/page-by-firstname/{firstname}", firstName)
                                 .param("pageNum", "0")
                                 .param("pageSize", "10")
+                ).andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON));
+    }
+
+    @Test
+    @DisplayName("VoterControllerUnitTest: Get all voters by lastname.")
+    public void testGetAllVotersByLastName() throws Exception {
+        String lastName = "Bhuyar";
+        List<Voter> voters = EntityGenerator.getVoters().stream()
+                .filter(voter -> voter.getLastName().equals(lastName))
+                .collect(Collectors.toList());
+
+        // Mock the service layer
+        Mockito.when(service.getAllVotersByLastName(Mockito.anyString()))
+                .thenReturn(voters);
+
+        String jsonContent = mapper.writeValueAsString(voters);
+
+        // perform the action on API endpoint
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/voter/by-last-name/{lastname}", lastName))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(MockMvcResultMatchers.content().json(jsonContent));
+    }
+
+    @Test
+    @DisplayName("VoterControllerUnitTest: Get Voter Page by lastname")
+    public void testGetVoterPageByLastName() throws Exception {
+        String lastName = "Bhuyar";
+        List<Voter> voters = EntityGenerator.getVoters().stream()
+                .filter(voter -> voter.getLastName().equals(lastName))
+                .collect(Collectors.toList());
+
+        Page<Voter> page = new PageImpl<>(voters);
+
+        // Mock the service layer
+        Mockito.when(service.getVotersPageByLastName(Mockito.anyString(), Mockito.anyInt(), Mockito.anyInt()))
+                .thenReturn(page);
+
+        // perform the action on API endpoint
+        mockMvc.perform(
+                        MockMvcRequestBuilders.get("/api/v1/voter/page-by-lastname/{lastname}", lastName)
+                                .param("pageNum", "0")
+                                .param("pageSize","10")
                 ).andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON));
     }
