@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.manjunath.voterapi.codetype.GenderType;
 import org.manjunath.voterapi.dao.VoterRepository;
 import org.manjunath.voterapi.model.Voter;
 import org.mockito.InjectMocks;
@@ -132,5 +133,29 @@ public class VoterServiceTest {
         // verify the method has been called or not
         Mockito.verify(repository, Mockito.times(1))
                 .findByLastNameIgnoreCase(Mockito.anyString(), Mockito.any(Pageable.class));
+    }
+
+    @Test
+    @DisplayName("VoterServiceTest: Test to get Voter page by Gender")
+    public void testGetVotersPageByGender() {
+        GenderType gender = GenderType.FEMALE;
+        List<Voter> voters = EntityGenerator.getVoters().stream()
+                .filter(voter -> voter.getGender().equals(gender))
+                .collect(Collectors.toList());
+        Page<Voter> page = new PageImpl<>(voters);
+
+        // mock the repository layer
+        Mockito.when(repository.findByGender(Mockito.any(GenderType.class), Mockito.any(Pageable.class)))
+                .thenReturn(page);
+
+        // invoke the target method and verify the result
+        Page<Voter> votersPage = service.getVotersPageByGender(gender, 0, 10);
+        Assertions.assertEquals(voters.size(), votersPage.getContent().size());
+        Assertions.assertIterableEquals(voters, votersPage.getContent());
+
+        // verify the method has been called or not
+        Mockito.verify(repository, Mockito.times(1))
+                .findByGender(Mockito.any(GenderType.class), Mockito.any(Pageable.class));
+
     }
 }
