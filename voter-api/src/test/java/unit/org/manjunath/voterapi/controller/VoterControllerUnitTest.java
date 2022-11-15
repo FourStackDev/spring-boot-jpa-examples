@@ -149,9 +149,29 @@ public class VoterControllerUnitTest {
         mockMvc.perform(
                         MockMvcRequestBuilders.get("/api/v1/voter/page-by-lastname/{lastname}", lastName)
                                 .param("pageNum", "0")
-                                .param("pageSize","10")
+                                .param("pageSize", "10")
                 ).andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON));
+    }
+
+    @Test
+    @DisplayName("VoterControllerUnitTest: Create Voter")
+    public void testCreateVoter() throws Exception {
+        Voter voter = EntityGenerator.getVoter();
+
+        // Mock the service layer
+        Mockito.when(service.createVoter(Mockito.any(Voter.class)))
+                .thenReturn(voter);
+
+        // perform the action on API layer
+        String jsonContent = mapper.writeValueAsString(voter);
+        mockMvc.perform(
+                        MockMvcRequestBuilders.post("/api/v1/voter")
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content(jsonContent)
+                ).andExpect(MockMvcResultMatchers.status().isCreated())
+                .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(MockMvcResultMatchers.content().json(jsonContent));
     }
 
 }
