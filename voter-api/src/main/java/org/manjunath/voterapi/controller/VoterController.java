@@ -1,5 +1,6 @@
 package org.manjunath.voterapi.controller;
 
+import org.manjunath.voterapi.codetype.GenderType;
 import org.manjunath.voterapi.model.Voter;
 import org.manjunath.voterapi.service.VoterService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,6 +45,13 @@ public class VoterController {
                                               @RequestParam(value = "pageNum", defaultValue = "0") int pageNum,
                                               @RequestParam(value = "pageSize", defaultValue = "10") int pageSize) {
         return service.getVotersPageByLastName(lastName, pageNum, pageSize);
+    }
+
+    @GetMapping("/voter/page-by-gender/{gender}")
+    public Page<Voter> getVoterPageByGender(@PathVariable("gender") String gender,
+                                            @RequestParam(value = "pageNum", defaultValue = "0") int pageNum,
+                                            @RequestParam(value = "pageSize", defaultValue = "10") int pageSize) {
+        return service.getVotersPageByGender(GenderType.valueOf(gender), pageNum, pageSize);
     }
 
     @PostMapping("/voter")

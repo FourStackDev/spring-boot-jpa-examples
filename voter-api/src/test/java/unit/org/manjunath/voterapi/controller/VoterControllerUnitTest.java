@@ -5,6 +5,7 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.manjunath.voterapi.codetype.GenderType;
 import org.manjunath.voterapi.model.Voter;
 import org.manjunath.voterapi.service.VoterService;
 import org.mockito.Mockito;
@@ -148,6 +149,28 @@ public class VoterControllerUnitTest {
         // perform the action on API endpoint
         mockMvc.perform(
                         MockMvcRequestBuilders.get("/api/v1/voter/page-by-lastname/{lastname}", lastName)
+                                .param("pageNum", "0")
+                                .param("pageSize", "10")
+                ).andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON));
+    }
+
+    @Test
+    @DisplayName("VoterControllerUnitTest: Get Voter Page by Gender")
+    public void testGetVoterPageByGender() throws Exception {
+        String gender = GenderType.MALE.toString();
+        List<Voter> voters = EntityGenerator.getVoters().stream()
+                .filter(voter -> voter.getGender().equals(GenderType.MALE))
+                .collect(Collectors.toList());
+
+        Page<Voter> page = new PageImpl<>(voters);
+        // mock the service layer
+        Mockito.when(service.getVotersPageByGender(Mockito.any(GenderType.class), Mockito.anyInt(), Mockito.anyInt()))
+                .thenReturn(page);
+
+        // perform the action on API endpoint
+        mockMvc.perform(
+                        MockMvcRequestBuilders.get("/api/v1/voter/page-by-gender/{gender}", gender)
                                 .param("pageNum", "0")
                                 .param("pageSize", "10")
                 ).andExpect(MockMvcResultMatchers.status().isOk())

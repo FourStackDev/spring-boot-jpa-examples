@@ -1,5 +1,6 @@
 package org.manjunath.voterapi.service;
 
+import org.manjunath.voterapi.codetype.GenderType;
 import org.manjunath.voterapi.dao.VoterRepository;
 import org.manjunath.voterapi.model.Voter;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,6 +52,11 @@ public class VoterServiceImpl implements VoterService {
     @Override
     public Page<Voter> getVotersPageByLastName(String lastName, int pageNum, int pageSize) {
         return voterRepository.findByLastNameIgnoreCase(lastName, getPageRequest(pageNum, pageSize));
+    }
+
+    @Override
+    public Page<Voter> getVotersPageByGender(GenderType gender, int pageNum, int pageSize) {
+        return voterRepository.findByGender(gender, getPageRequest(pageNum, pageSize));
     }
 
     private Pageable getPageRequest(int pageNum, int pageSize) {
