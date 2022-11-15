@@ -158,4 +158,22 @@ public class VoterServiceTest {
                 .findByGender(Mockito.any(GenderType.class), Mockito.any(Pageable.class));
 
     }
+
+    @Test
+    @DisplayName("VoterServiceTest: Test to create Voter")
+    public void testCreateVoter() {
+        Voter voter = EntityGenerator.getVoter();
+
+        // mock the repository layer
+        Mockito.when(repository.save(Mockito.any(Voter.class)))
+                .thenReturn(voter);
+
+        // invoke the target method and verify the result
+        Voter resultVoter = service.createVoter(voter);
+        Assertions.assertNotNull(resultVoter);
+        Assertions.assertEquals(voter, resultVoter);
+
+        // verify the method has been called or not
+        Mockito.verify(repository).save(Mockito.any(Voter.class));
+    }
 }
