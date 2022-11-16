@@ -59,6 +59,11 @@ public class VoterServiceImpl implements VoterService {
         return voterRepository.findByGender(gender, getPageRequest(pageNum, pageSize));
     }
 
+    @Override
+    public void deleteVoterById(String voterId) {
+        voterRepository.deleteById(voterId);
+    }
+
     private Pageable getPageRequest(int pageNum, int pageSize) {
         return PageRequest.of(pageNum, pageSize, Sort.Direction.ASC, "lastName");
         // return PageRequest.of(pageNum, pageSize, Sort.by(Sort.Direction.DESC, "lastName"));

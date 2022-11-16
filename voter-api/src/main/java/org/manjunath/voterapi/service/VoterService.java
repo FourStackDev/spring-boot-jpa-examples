@@ -21,4 +21,6 @@ public interface VoterService {
     Page<Voter> getVotersPageByLastName(String lastName, int pageNum, int pageSize);
 
     Page<Voter> getVotersPageByGender(GenderType gender, int pageNum, int pageSize);
+
+    void deleteVoterById(String voterId);
 }

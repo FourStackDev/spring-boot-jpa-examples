@@ -176,4 +176,20 @@ public class VoterServiceTest {
         // verify the method has been called or not
         Mockito.verify(repository).save(Mockito.any(Voter.class));
     }
+
+    @Test
+    @DisplayName("VoterServiceTest: Test to delete Voter")
+    public void testDeleteVoterById() {
+        String voterId = "rt679-jgk76-jgiu2-862";
+
+        // Mock the repository layer
+        Mockito.doNothing().when(repository)
+                .deleteById(Mockito.anyString());
+
+        // invoke the target method and verify the result
+        service.deleteVoterById(voterId);
+
+        Mockito.verify(repository, Mockito.times(1))
+                .deleteById(Mockito.anyString());
+    }
 }

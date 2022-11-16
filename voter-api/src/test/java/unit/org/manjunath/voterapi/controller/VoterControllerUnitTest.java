@@ -197,4 +197,23 @@ public class VoterControllerUnitTest {
                 .andExpect(MockMvcResultMatchers.content().json(jsonContent));
     }
 
+    @Test
+    @DisplayName("VoterControllerUnitTest: Test case to delete Voter")
+    public void testDeleteVoterByVoterId() throws Exception {
+        String voterId = "rt679-jgk76-jgiu2-862";
+
+        // Mock the service layer
+        Mockito.doNothing().when(service)
+                .deleteVoterById(Mockito.anyString());
+
+        // perform the action on API layer
+        mockMvc.perform(MockMvcRequestBuilders.delete("/api/v1/voter/{voter-id}", voterId))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.content().string("Entity deleted successfully"));
+
+        // verify the target method call
+        Mockito.verify(service, Mockito.times(1))
+                .deleteVoterById(Mockito.anyString());
+    }
+
 }

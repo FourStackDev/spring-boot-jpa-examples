@@ -59,4 +59,11 @@ public class VoterController {
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(service.createVoter(voter));
     }
+
+    @DeleteMapping("/voter/{voter-id}")
+    public ResponseEntity<String> deleteVoterByVoterId(@PathVariable("voter-id") String voterId) {
+        service.deleteVoterById(voterId);
+        return ResponseEntity.status(HttpStatus.OK)
+                .body("Entity deleted successfully");
+    }
 }
