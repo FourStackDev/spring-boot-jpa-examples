@@ -90,7 +90,7 @@ public class VoterControllerIntgTest {
     }
 
     @Test
-    @DisplayName("testGetAllVotersByFirstName: Get Voters by LastName")
+    @DisplayName("VoterControllerIntgTest: Get Voters by LastName")
     public void testGetAllVotersByLastName() {
         String url = "/api/v1/voter/by-last-name/Bhuyar";
         ResponseEntity<Voter[]> response = restTemplate.exchange(
@@ -103,6 +103,24 @@ public class VoterControllerIntgTest {
         assert response != null;
         Assertions.assertEquals(HttpStatus.OK, response.getStatusCode());
         Assertions.assertEquals(1, response.getBody().length);
+    }
+
+    @Test
+    @DisplayName("VoterControllerIntgTest: delete Voter by voterId")
+    public void testDeleteVoterByVoterId() {
+        String voterId = "VOTE-7752367";
+        String url = "/api/v1/voter/" + voterId;
+
+        ResponseEntity<String> response = restTemplate.exchange(
+                url,
+                HttpMethod.DELETE,
+                HttpEntity.EMPTY,
+                String.class
+        );
+
+        assert response != null;
+        Assertions.assertEquals(HttpStatus.OK, response.getStatusCode());
+        Assertions.assertEquals("Entity deleted successfully", response.getBody());
     }
 
 }
