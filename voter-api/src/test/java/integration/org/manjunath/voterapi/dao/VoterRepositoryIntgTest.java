@@ -23,6 +23,7 @@ public class VoterRepositoryIntgTest {
     @BeforeEach
     public void setUp() {
         List<Voter> voters = EntityGenerator.getVoters();
+        voters.stream().forEach(voter -> voter.getAddress().setVoter(voter));
         voterRepository.saveAll(voters);
     }
 
@@ -118,9 +119,27 @@ public class VoterRepositoryIntgTest {
         Voter voter = getVoter("VOTER-877645", "Kiran", "Vijay", "M",
                 LocalDate.of(1993, 10, 07), GenderType.MALE, address);
 
+        voter.getAddress().setVoter(voter);
+
         Voter savedVoter = voterRepository.save(voter);
         Assertions.assertEquals("Kiran", savedVoter.getFirstName());
         Assertions.assertNotNull(savedVoter.getAddress().getId());
+    }
+
+    @Test
+    @DisplayName("VoterRepositoryIntgTest: Delete Voter by Id")
+    public void testDeleteVoterById() {
+        String voterId = "VOTE-7752367";
+
+        // check voter present in DB or not
+        Optional<Voter> optionalVoter = voterRepository.findById(voterId);
+        Assertions.assertEquals(true, optionalVoter.isPresent());
+
+        // delete Voter
+        voterRepository.deleteById(voterId);
+
+        Optional<Voter> deletedVoter = voterRepository.findById(voterId);
+        Assertions.assertEquals(false, deletedVoter.isPresent());
     }
 
     private Voter getVoter(String id, String firstName, String lastName, String middleName,
