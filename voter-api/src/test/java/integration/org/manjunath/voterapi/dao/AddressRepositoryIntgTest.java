@@ -23,6 +23,8 @@ public class AddressRepositoryIntgTest {
     @BeforeEach
     public void setUp() {
         List<Voter> voters = EntityGenerator.getVoters();
+        voters.stream()
+                .forEach(voter -> voter.getAddress().setVoter(voter));
         voterRepository.saveAll(voters);
     }
 
