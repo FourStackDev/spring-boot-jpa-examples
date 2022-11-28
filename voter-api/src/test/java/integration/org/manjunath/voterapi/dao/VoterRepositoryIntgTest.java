@@ -143,6 +143,7 @@ public class VoterRepositoryIntgTest {
     }
 
     @Test
+    @DisplayName("VoterRepositoryIntgTest: Fetch voter page by firstname and state")
     public void testFindByFirstNameIgnoreCaseAndAddressState() {
         String firstName = "Vinay";
         String state = "Karnataka";
@@ -154,6 +155,21 @@ public class VoterRepositoryIntgTest {
 
         Assertions.assertEquals(1, content.size());
     }
+
+    @Test
+    @DisplayName("VoterRepositoryIntgTest: Fetch voter page by gender and state")
+    public void testFindByGenderAndAddressState() {
+        GenderType gender = GenderType.MALE;
+        String state = "Karnataka";
+        Page<Voter> voterPage = voterRepository.findByGenderAndAddressState(gender, state, PageRequest.of(0, 10));
+        List<Voter> content = voterPage.getContent();
+
+        assert content != null;
+        assert !content.isEmpty();
+
+        Assertions.assertEquals(4, content.size());
+    }
+
 
     private Voter getVoter(String id, String firstName, String lastName, String middleName,
                            LocalDate dob, GenderType gender, Address address) {
