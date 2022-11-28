@@ -19,4 +19,6 @@ public interface VoterRepository extends JpaRepository<Voter, String> {
     Page<Voter> findByLastNameIgnoreCase(String lastName, Pageable page);
 
     Page<Voter> findByGender(GenderType gender, Pageable page);
+
+    Page<Voter> findByFirstNameIgnoreCaseAndAddressState(String firstName, String state, Pageable page);
 }

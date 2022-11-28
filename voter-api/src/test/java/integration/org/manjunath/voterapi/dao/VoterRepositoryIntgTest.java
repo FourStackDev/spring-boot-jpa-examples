@@ -142,6 +142,19 @@ public class VoterRepositoryIntgTest {
         Assertions.assertEquals(false, deletedVoter.isPresent());
     }
 
+    @Test
+    public void testFindByFirstNameIgnoreCaseAndAddressState() {
+        String firstName = "Vinay";
+        String state = "Karnataka";
+        Page<Voter> voterPage = voterRepository.
+                findByFirstNameIgnoreCaseAndAddressState(firstName, state, PageRequest.of(0, 10));
+        List<Voter> content = voterPage.getContent();
+        assert content != null;
+        assert !content.isEmpty();
+
+        Assertions.assertEquals(1, content.size());
+    }
+
     private Voter getVoter(String id, String firstName, String lastName, String middleName,
                            LocalDate dob, GenderType gender, Address address) {
         return Voter.builder()
